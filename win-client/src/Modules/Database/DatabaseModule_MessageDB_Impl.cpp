@@ -1,6 +1,6 @@
 /******************************************************************************* 
  *  @file      DatabaseModule_MessageDB_Impl.cpp 2015\1\6 14:53:10 $
- *  @author    ¿ìµ¶<kuaidao@mogujie.com>
+ *  @author    å¿«åˆ€<kuaidao@mogujie.com>
  *  @brief     
  ******************************************************************************/
 
@@ -81,7 +81,7 @@ BOOL DatabaseModule_Impl::sqlGetHistoryMessage(IN const std::string& sId, IN con
 			msg.msgType = MESSAGE_TYPE_HISTORY;
 			msg.msgId = query.getIntField(1);
 			msg.msgRenderType = query.getIntField(5);
-			//¶ÔÓïÒôÏûÏ¢×ö¸öÌØÊâ´¦Àí£¬content´æ´¢µÄÊÇjson¸ñÊ½×Ö·û´®
+			//å¯¹è¯­éŸ³æ¶ˆæ¯åšä¸ªç‰¹æ®Šå¤„ç†ï¼Œcontentå­˜å‚¨çš„æ˜¯jsonæ ¼å¼å­—ç¬¦ä¸²
 			if (MESSAGE_RENDERTYPE_AUDIO == msg.msgRenderType)
 			{
 				std::string jsonAudioContent = query.getStringField(4);
@@ -91,7 +91,7 @@ BOOL DatabaseModule_Impl::sqlGetHistoryMessage(IN const std::string& sId, IN con
 				{
 					msg.msgAudioTime = (root.get("msgAudioTime", "")).asUInt();
 					msg.content = (root.get("msgAudioId", "")).asString();
-					msg.msgAudioReaded = 1;//ÀúÊ·ÓïÒôÏûÏ¢Ä¬ÈÏÎªÒÑ¶Á
+					msg.msgAudioReaded = 1;//å†å²è¯­éŸ³æ¶ˆæ¯é»˜è®¤ä¸ºå·²è¯»
 				}
 			}
 			else
@@ -103,7 +103,7 @@ BOOL DatabaseModule_Impl::sqlGetHistoryMessage(IN const std::string& sId, IN con
 			msg.talkerSid = query.getStringField(3);
 			msg.msgAudioReaded = TRUE;
 			msgList.push_back(msg);
-			//msgList.insert(msgList.begin(), msg);//ĞèÒª
+			//msgList.insert(msgList.begin(), msg);//éœ€è¦
 			query.nextRow();
 		}
 	}
@@ -174,7 +174,7 @@ BOOL DatabaseModule_Impl::sqlInsertMessage(IN MessageEntity& msg)
 		stmt.bind(1, (Int32)msg.msgId);
 		stmt.bind(2, msg.sessionId.c_str());
 		stmt.bind(3, msg.talkerSid.c_str());
-		//¶ÔÓïÒôÏûÏ¢×ö¸öÌØÊâ´¦Àí£¬content´æ´¢µÄÊÇjson¸ñÊ½×Ö·û´®
+		//å¯¹è¯­éŸ³æ¶ˆæ¯åšä¸ªç‰¹æ®Šå¤„ç†ï¼Œcontentå­˜å‚¨çš„æ˜¯jsonæ ¼å¼å­—ç¬¦ä¸²
 		if (MESSAGE_RENDERTYPE_AUDIO == msg.msgRenderType)
 		{
 			Json::Value root;
@@ -237,19 +237,27 @@ BOOL DatabaseModule_Impl::sqlBatchInsertMessage(IN std::list<MessageEntity>& msg
 		for (; iter != msgList.end(); ++iter)
 		{
 			MessageEntity msg = *iter;
-			if (msg.msgId <= 0)//·Ç·¨µÄmsgÏûÏ¢²»ÓÃ´æ´¢
+			if (msg.msgId <= 0)//éæ³•çš„msgæ¶ˆæ¯ä¸ç”¨å­˜å‚¨
 			{
 				std::string msgDecrptyCnt;
-				DECRYPT_MSG(msg.content,msgDecrptyCnt);
-				LOG__(ERR, _T("msgid <= 0, msgid:%d msg_content:%s Don't save to DB!")
-					, msg.msgId, util::stringToCString(msgDecrptyCnt));
+				if (msg.msgId != 0)
+				{
+					DECRYPT_MSG(msg.content, msgDecrptyCnt);
+					LOG__(ERR, _T("msgid <= 0, msgid:%d msg_content:%s Don't save to DB!")
+						, msg.msgId, util::stringToCString(msgDecrptyCnt));
+				}
+				else
+				{
+					LOG__(ERR, _T("msgid <= 0, msgid:%d msg_content:%s Don't save to DB!")
+						, msg.msgId, msg.content);
+				}
 				continue;
 			}
 			CppSQLite3Statement stmt = m_pSqliteDB->compileStatement(insertMessageSql.c_str());
 			stmt.bind(1, (Int32)msg.msgId);
 			stmt.bind(2, msg.sessionId.c_str());
 			stmt.bind(3, msg.talkerSid.c_str());
-			//¶ÔÓïÒôÏûÏ¢×ö¸öÌØÊâ´¦Àí£¬content´æ´¢µÄÊÇjson¸ñÊ½×Ö·û´®
+			//å¯¹è¯­éŸ³æ¶ˆæ¯åšä¸ªç‰¹æ®Šå¤„ç†ï¼Œcontentå­˜å‚¨çš„æ˜¯jsonæ ¼å¼å­—ç¬¦ä¸²
 			if (MESSAGE_RENDERTYPE_AUDIO == msg.msgRenderType)
 			{
 				Json::Value root;
