@@ -5,7 +5,7 @@
 
 # setup gcc
 
-VERSION=4.9.2
+VERSION=5.3.0
 GCC=gcc-$VERSION
 GCC_DOWNLOAD_PATH=http://gcc.skazkaforyou.com/releases/$GCC/$GCC.tar.gz
 GDB=gdb-7.9
