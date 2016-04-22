@@ -4,8 +4,6 @@
 # date: 09/04/2014
 
 # setup web
-# 站点源码路径
-PHP_SOURCE_PATH=../../php
 PHP_WEB=tt
 PHP_WEB_SETUP_PATH=/var/www/html
 PHP_DB_CONF=database.php
@@ -48,7 +46,13 @@ build_web(){
 	if [ -d $PHP_WEB ]; then
 		echo "$PHP_WEB has existed."
 	else
-		cp $PHP_SOURCE_PATH tt
+		unzip $PHP_WEB.zip
+		if [ $? -eq 0 ]; then
+			echo "unzip $PHP_WEB successed."
+		else
+			echo "Error: unzip $PHP_WEB failed."
+		return 1
+		fi
 	fi
 
 	set -x
