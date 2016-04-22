@@ -73,4 +73,4 @@
 
 ###IM_SERVER与IM_DB_PROXY架构图如下:
 
-![](https://raw.githubusercontent.com/mogutt/TTServer/master/docs/pics/server.jpg)
+![](https://raw.githubusercontent.com/xuhuan/TeamTalk/master/doc/server.png)
