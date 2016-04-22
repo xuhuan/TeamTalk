@@ -46,28 +46,14 @@ case $1 in
 	file_server)
 		restart $1
 		;;
-    push_server)
-        restart $1
-        ;;
-    db_proxy_server)
-        restart $1
-        ;;
-    msfs)
-        restart $1
-        ;;
-    all)
-        restart login_server
-        restart msg_server
-        restart route_server
-        restart http_msg_server
-        restart file_server
-        restart push_server
-        restart db_proxy_server
-        restart msfs
-        ;;
+  push_server)
+    restart $1
+    ;;
+  db_proxy_server)
+  restart $1
+  ;;
 	*)
 		echo "Usage: "
-		echo "  ./restart.sh (login_server|msg_server|route_server|http_msg_server|file_server|push_server|msfs)"
-        echo "  ./restart.sh all"
-        ;;
+		echo "  ./restart.sh (login_server|msg_server|route_server|http_msg_server|file_server|push_server)"
+		;;
 esac

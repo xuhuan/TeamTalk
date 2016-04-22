@@ -36,7 +36,7 @@ function monitor() {
     fi
 }
 
-case $1 in    
+case $1 in
     login_server)
         monitor $1
         ;;
@@ -49,34 +49,11 @@ case $1 in
     http_msg_server)
         monitor $1
         ;;
-    file_server)
-        monitor $1
-        ;;
-    push_server)
-        monitor $1
-        ;;
-    db_proxy_server)
-        monitor $1
-        ;;
-    msfs)
-        monitor $1
-        ;;
-    all)
-        monitor login_server
-        monitor msg_server
-        monitor route_server
-        monitor http_msg_server
-        monitor file_server
-        monitor push_server
-        monitor db_proxy_server
-        monitor msfs
-        ;;
     test)
         sendSMS
         ;;
     *)
         echo "Usage: "
-        echo "  ./monitor.sh (login_server|msg_server|route_server|http_msg_server|file_server|push_server|msfs)"
-        echo "  ./monitor.sh all -- run all"
+        echo "  ./monitor.sh (login_server|msg_server|route_server|http_msg_server|db_proxy_server|test )"
         ;;
 esac
